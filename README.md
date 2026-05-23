@@ -1,0 +1,1 @@
+Реализация АТД LazySequence<T>, семейства АТД Stream<T>.
