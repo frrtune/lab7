@@ -35,4 +35,30 @@ class Ordinal {
             }
             return value_;
         }
+        bool operator==(const Ordinal& other) const {
+            if (type_ != other.type_) return false;
+            if (type_ == OrdinalType::Finite) return value_ == other.value_;
+            return true;
+        }
+        bool operator!=(const Ordinal& other) const {
+            return !(*this == other);
+        }
+        bool operator<(const Ordinal& other) const {
+            if (type_ == OrdinalType::Zero) return !other.IsZero();
+            if (type_ == OrdinalType::Finite) {
+                if (other.type_ == OrdinalType::Zero) return false;
+                if (other.type_ == OrdinalType::Finite) return value_ < other.value_;
+                return true;
+            }
+            return false;
+        }
+        bool operator>(const Ordinal& other) const {
+            return other < *this;
+        }
+        bool operator<=(const Ordinal& other) const {
+            return !(*this > other);
+        }
+        bool operator>=(const Ordinal& other) const {
+            return !(*this < other);
+        }
 };
