@@ -80,4 +80,16 @@ class LazySequence {
             }
             return new_sequence;
        }
+       LazySequence<T>* InsertAt(T item, size_t index) {
+            if (index > cache_->GetLength()) throw RangeError(index, cache_->GetLength());   
+            LazySequence<T>* new_sequence = new LazySequence<T>();
+            for (size_t i = 0; i < index; i++) {
+                new_sequence->cache_->Append(cache_->Get(i));
+            }
+            new_sequence->cache_->Append(item);
+            for (size_t i = index; i < cache_->GetLength(); i++) {
+                new_sequence->cache_->Append(cache_->Get(i));
+            }
+            return new_sequence;
+       }
 };
