@@ -11,10 +11,10 @@ class Generator {
         virtual T GetNext() = 0;
         virtual bool HasNext() const = 0;
         virtual Optional<T> TryGetNext() = 0;
-        virtual Generator<T>* Append(T item) const = 0; 
-        virtual Generator<T>* Append(Sequence<T>* items) const = 0; 
-        virtual Generator<T>* Insert(T item) const = 0; 
-        virtual Generator<T>* Insert(Sequence<T>* items) const = 0; 
-        virtual Generator<T>* Remove(T item) const = 0; 
-        virtual Generator<T>* Remove(Sequence<T>* items) const = 0; 
+        virtual std::unique_ptr<Generator<T>> Append(T& item) const = 0; 
+        virtual std::unique_ptr<Generator<T>> Append(Sequence<T>& items) const = 0; 
+        virtual std::unique_ptr<Generator<T>> Insert(T& item) const = 0; 
+        virtual std::unique_ptr<Generator<T>> Insert(Sequence<T>& items) const = 0; 
+        virtual std::unique_ptr<Generator<T>> Remove(T& item) const = 0; 
+        virtual std::unique_ptr<Generator<T>> Remove(Sequence<T>& items) const = 0; 
 }
