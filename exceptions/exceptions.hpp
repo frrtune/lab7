@@ -38,3 +38,8 @@ class OptionalError : public Error {
     public:
         OptionalError(const std::string& details) : Error(details) {}
 };
+
+class CardinalError : public Error {
+    public:
+        CardinalError(const std::string& details) : Error(details) {}
+};
