@@ -24,4 +24,26 @@ class Cardinal {
             }
             return value_;
         }
+        bool operator==(const Cardinal& other) const {
+            if (is_infinite_ && other.is_infinite_) return true;
+            if (is_infinite_ || other.is_infinite_) return false;
+            return value_ == other.value_;
+        }
+        bool operator!=(const Cardinal& other) const {
+            return !(*this == other);
+        }
+        bool operator<(const Cardinal& other) const {
+            if (is_infinite_) return false;
+            if (other.is_infinite_) return true;
+            return value_ < other.value_;
+        }
+        bool operator>(const Cardinal& other) const {
+            return other < *this;
+        }
+        bool operator<=(const Cardinal& other) const {
+            return !(*this > other);
+        }
+        bool operator>=(const Cardinal& other) const {
+            return !(*this < other);
+        }
 };
