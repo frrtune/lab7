@@ -67,17 +67,17 @@ class LazySequence {
        size_t GetMaterializedCount() const {
             return cache_->GetLength();
        }
-       /*Sequence<T>* Append(T item) {
+       Sequence<T>* Append(T item) {
             LazySequence<T>* new_sequence = new LazySequence<T>(*this);
-            new_sequence->cache_ = cache_->Append(item);
+            new_sequence->cache_->Append(item);
             return new_sequence;
        }
        Sequence<T>* Prepend(T item) {
             LazySequence<T>* new_sequence = new LazySequence<T>();
-            new_sequence->cache_ = cache_->Prepend(item);
-            for (size_t i = 1; i < cache_->GetLength(); i++) {
-                cache_->Append(cache_[i]);
+            new_sequence->cache_->Append(item);
+            for (size_t i = 0; i < cache_->GetLength(); i++) {
+                cache_->Append(cache_.Get(i));
             }
             return new_sequence;
-       }*/
+       }
 };
