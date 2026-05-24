@@ -1,0 +1,20 @@
+#pragma once
+
+#include "../exceptions/exceptions.hpp"
+#include "../lab5/sequence/sequence.hpp"
+//#include "../optional/optional.hpp"
+
+template <typename T>
+class Generator {
+    public:
+        virtual ~Generator() = default;
+        virtual T GetNext() = 0;
+        virtual bool HasNext() const = 0;
+        virtual Optional<T> TryGetNext() = 0;
+        virtual Generator<T>* Append(T item) const = 0; 
+        virtual Generator<T>* Append(Sequence<T>* items) const = 0; 
+        virtual Generator<T>* Insert(T item) const = 0; 
+        virtual Generator<T>* Insert(Sequence<T>* items) const = 0; 
+        virtual Generator<T>* Remove(T item) const = 0; 
+        virtual Generator<T>* Remove(Sequence<T>* items) const = 0; 
+}
