@@ -43,3 +43,8 @@ class CardinalError : public Error {
     public:
         CardinalError(const std::string& details) : Error(details) {}
 };
+
+class OrdinalError : public Error {
+    public:
+        OrdinalError(const std::string& details) : Error(details) {}
+};
