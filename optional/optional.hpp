@@ -17,4 +17,16 @@ class Optional {
         ~Optional() {
             delete value_;
         }
-}
+        bool has_value() const {
+            return value_ != nullptr;
+        }
+        T& value() {
+            if (value_ == nullptr) {
+                throw OptionalError("no value");
+            }
+            return *value_;
+        }
+        T& operator*() {
+            return value();
+        }
+};
