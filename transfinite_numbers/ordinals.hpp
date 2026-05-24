@@ -61,4 +61,43 @@ class Ordinal {
         bool operator>=(const Ordinal& other) const {
             return !(*this < other);
         }
+        Ordinal operator+(const Ordinal& other) const {
+            if (IsTransfinite() && other.IsFinite()) {
+                return *this;
+            }
+            if (IsFinite() && other.IsTransfinite()) {
+                return other;
+            }
+            if (IsZero()) return other;
+            if (other.IsZero()) return *this;
+            if (IsFinite() && other.IsFinite()) {
+                size_t new_value = value_ + other.value_;
+                return Ordinal(new_value);
+            }
+            return *this;
+        }
+        Ordinal operator+(size_t value) const {
+            if (IsTransfinite()) {
+                return *this;
+            }
+            return Ordinal(GetValue() + value);
+        }
+        Ordinal operator*(const Ordinal& other) const {
+            if (IsZero() || other.IsZero()) {
+                return Ordinal(0);
+            }
+            if (IsTransfinite() && other.IsFinite()) {
+                if (other.value_ == 0) return Ordinal(0);
+                return *this;
+            }
+            if (IsFinite() && other.IsTransfinite()) {
+                if (value_ == 0) return Ordinal(0);
+                return other;
+            }
+            if (IsFinite() && other.IsFinite()) {
+                size_t new_value = value_ * other.value_;
+                return Ordinal(new_value);
+            }
+            return *this;
+        }
 };
