@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../exceptions/exceptions.hpp"
 #include "../lab5/sequence/sequence.hpp"
 //#include "../optional/optional.hpp"
 
@@ -17,4 +16,4 @@ class Generator {
         virtual std::unique_ptr<Generator<T>> Insert(Sequence<T>& items) const = 0; 
         virtual std::unique_ptr<Generator<T>> Remove(T& item) const = 0; 
         virtual std::unique_ptr<Generator<T>> Remove(Sequence<T>& items) const = 0; 
-}
+};
