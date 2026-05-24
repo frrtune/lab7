@@ -19,7 +19,7 @@ class LazySequence {
             }
         } 
         LazySequence (Container<T>& sequence) : generator_(nullptr) {
-            for (size_t i = 0; i < sequence.Getlength(); i++) {
+            for (size_t i = 0; i < sequence.GetLength(); i++) {
                 cache_.Append(sequence.Get(i));
             }
         }
@@ -39,7 +39,7 @@ class LazySequence {
             if (cache_.GetLength() == 0) throw EmptyBufferError("cache is empty");
             return cache_.Get(cache_.GetLength() - 1);
        }
-       T Get(size_t index) {
+       T Get(size_t index) { // материализовывать (?)
             if (cache_.GetLength() == 0) throw EmptyBufferError("cache is empty");
             if (index >= cache_.GetLength()) {
                 throw RangeError(index, cache_.GetLength());
@@ -61,5 +61,10 @@ class LazySequence {
                 subsequence->cache_.Append(cache_.Get(i));
             }
             return subsequence;
+       }
+       // реализовать cardinal 
+       //Cardinal GetLength() const {}
+       size_t GetMaterializedCount() const {
+            return cache_.GetLength();
        }
 };
