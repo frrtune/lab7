@@ -33,3 +33,8 @@ class EmptyBufferError : public Error {
     public:
         EmptyBufferError(const std::string& details) : Error("Buffer is empty") {}
 };
+
+class OptionalError : public Error {
+    public:
+        OptionalError(const std::string& details) : Error(details) {}
+};
