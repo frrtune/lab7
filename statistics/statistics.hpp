@@ -66,13 +66,27 @@ class Statistics {
             max_ = T(0);
             values_ = ArraySequence<T>();
         }
-        T sum() { 
+        T sum() const { 
             return sum_; 
         }
-        T min() {
+        T min() const {
             return min_; 
         }
-        T max() {
+        T max() const {
             return max_;
+        }
+        T get_median() {
+            if (count_ == 0) {
+                throw EmptyBufferError("buffer is empty");
+            }
+            ArraySequence<T> temporary = values_;
+            quick_sort(temporary, 0, count_ - 1);
+            if (count_ % 2 == 1) {
+                return temporary.Get(count_ / 2);
+            } else {
+                T left = temporary.Get(count_ / 2 - 1);
+                T right = temporary.Get(count_ / 2);
+                return (left + right) / 2;
+            }
         }
 };
