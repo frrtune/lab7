@@ -80,12 +80,13 @@ class Statistics {
                 throw EmptyBufferError("buffer is empty");
             }
             ArraySequence<T> temporary = values_;
-            quick_sort(temporary, 0, count_ - 1);
-            if (count_ % 2 == 1) {
-                return temporary.Get(count_ / 2);
+            size_t count = temporary.GetLength();
+            quick_sort(temporary, 0, count - 1);
+            if (count % 2 == 1) {
+                return temporary.Get(count / 2);
             } else {
-                T left = temporary.Get(count_ / 2 - 1);
-                T right = temporary.Get(count_ / 2);
+                T left = temporary.Get(count / 2 - 1);
+                T right = temporary.Get(count / 2);
                 return (left + right) / 2;
             }
         }
