@@ -66,7 +66,15 @@ class LazySequence {
             }
             return subsequence;
        }
-       //Cardinal GetLength() const {}
+       Cardinal GetLength() const {
+            if (generator_ && !generator_->HasNext()) {
+                return Cardinal(cache_->GetLength());
+            }
+            if (!generator_) {
+                return Cardinal(cache_->GetLength());
+            }
+            return Cardinal::infinity();
+       }
        size_t GetMaterializedCount() const {
             return cache_->GetLength();
        }
