@@ -66,4 +66,13 @@ class Statistics {
             max_ = T(0);
             values_ = ArraySequence<T>();
         }
+        T sum() { 
+            return sum_; 
+        }
+        T min() {
+            return min_; 
+        }
+        T max() {
+            return max_;
+        }
 };
