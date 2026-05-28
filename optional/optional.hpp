@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../exceptions/exceptions.hpp"
+#include "../lab5/exceptions/exceptions.hpp"
 
 template <typename T>
 class Optional {
@@ -27,6 +27,6 @@ class Optional {
             return *value_;
         }
         T& operator*() {
-            return value();
+            return value_();
         }
 };
