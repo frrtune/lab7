@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../exceptions/exceptions.hpp"
+#include "../lab5/exceptions/exceptions.hpp"
 
 class Cardinal {
     private:
