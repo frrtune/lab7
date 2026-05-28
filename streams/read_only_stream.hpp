@@ -15,4 +15,4 @@ class ReadOnlyStream {
         ~ReadOnlyStream() {
             if (file_.is_open) file_.close();
         }
-}
+};
