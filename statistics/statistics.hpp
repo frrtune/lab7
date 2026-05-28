@@ -34,4 +34,18 @@ class Statistics {
             if (i > low) quick_sort(arr, low, i - 1);
             if (i + 1 < high) quick_sort(arr, i + 1, high);
         }
+    public:
+        Statistics() : count_(0), sum_(0), min_(0), max_(0) {}
+        void add(const T& value) {
+            if (count_ == 0) {
+                min_ = value;
+                max_ = value;
+            } else {
+                if (value < min_) min_ = value;
+                if (value > max_) max_ = value;
+            }
+            sum_ += value;
+            values_.PushBack(value);
+            count_++;
+        }
 };
