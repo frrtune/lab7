@@ -59,4 +59,11 @@ class Statistics {
                 }
             }
         }
+        void reset() {
+            count_ = 0;
+            sum_ = T(0);
+            min_ = T(0);
+            max_ = T(0);
+            values_ = ArraySequence<T>();
+        }
 };
