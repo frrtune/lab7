@@ -48,4 +48,15 @@ class Statistics {
             values_.PushBack(value);
             count_++;
         }
+        void read_from_stream(ReadOnlyStream<T>& stream, size_t limit = 0) {
+            size_t count = 0;
+            while (!stream.is_end()) {
+                if (limit > 0 && count >= limit) break;
+                Optional<T> optional_value = stream.try_read();
+                if (optional_value.has_value()) {
+                    add(optional_value.value());
+                    count++;
+                }
+            }
+        }
 };
