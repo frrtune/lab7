@@ -27,13 +27,6 @@ class LazySequence {
         }
         LazySequence (const LazySequence<T>& other) : generator_(other.generator_), cache_(new Container<T>(*other.cache_)) {};
         LazySequence(Generator<T>* generator) : generator_(generator), cache_(new Container<T>()) {};
-        /* реализовать генератор для функций
-        LazySequence (T(*function)(Sequence<T>*), Sequence<T> base)  {
-
-        }
-        LazySequence (std::function<T(Sequence<T>&), Sequence<T>& base) {
-
-        }*/
        T GetFirst() {
             if (cache_->GetLength() == 0) throw EmptyBufferError("cache is empty");
             return cache_->Get(0);
