@@ -59,6 +59,13 @@ class Statistics {
                 }
             }
         }
+        void read_from_sequence(LazySequence<T>& sequence, size_t limit = 100) {
+            size_t count = 0;
+            while (count < limit) {
+                add(sequence.Get(count));
+                count++;
+            }
+        }
         void reset() {
             count_ = 0;
             sum_ = T(0);
