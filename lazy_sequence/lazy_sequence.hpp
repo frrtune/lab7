@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "../generator/insert_generator.hpp"
+#include "../generator/concat_generator.hpp"
 #include "../lab5/exceptions/exceptions.hpp"
 #include "../lab5/sequence/sequence.hpp"
 #include "../lab5/array_sequence/array_sequence.hpp"
@@ -99,11 +100,8 @@ class LazySequence {
             return new_sequence;
        }
        LazySequence <T>* Concat(LazySequence<T>& other) {
-            LazySequence<T>* new_sequence = new LazySequence<T>(*this);
-            for (size_t i = 0; i < other.cache_->GetLength(); i++) {
-                new_sequence->cache_->Append(other.cache_->Get(i));
-            }
-            return new_sequence;
+            auto concat_generator = std::make_shared<ConcatGenerator<T>>(generator_, other.generator_);
+            return new LazySequence<T>(concat_generator);
        }
        LazySequence<T>* InsertSequenceAt(LazySequence<T>& other, size_t index) {
             auto insert_generator = std::make_shared<InsertGenerator<T>>(generator_, other.generator_, index);
