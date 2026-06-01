@@ -21,11 +21,9 @@ class OrdinalGenerator : public Generator<Ordinal> {
             if (mode_ == 1) {
                 mode_ = 2;
                 counter_ = 1;
-                return Ordinal::omega();
+                return Ordinal::omega_plus(counter_++);
             }
-            Ordinal result = Ordinal::omega() + counter_;
-            counter_++;
-            return result;
+            return Ordinal::omega_plus(counter_++);
         }
         bool HasNext() const override {
             return true;
