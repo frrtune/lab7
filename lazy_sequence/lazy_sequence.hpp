@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "../generator/insert_generator.hpp"
 #include "../lab5/exceptions/exceptions.hpp"
 #include "../lab5/sequence/sequence.hpp"
 #include "../lab5/array_sequence/array_sequence.hpp"
@@ -27,6 +28,7 @@ class LazySequence {
         }
         LazySequence (const LazySequence<T>& other) : generator_(other.generator_), cache_(new Container<T>(*other.cache_)) {};
         LazySequence(Generator<T>* generator) : generator_(generator), cache_(new Container<T>()) {};
+        LazySequence(std::shared_ptr<Generator<T>> generator) : generator_(generator), cache_(new Container<T>()) {}
        T GetFirst() {
             if (cache_->GetLength() == 0) throw EmptyBufferError("cache is empty");
             return cache_->Get(0);
@@ -102,5 +104,9 @@ class LazySequence {
                 new_sequence->cache_->Append(other.cache_->Get(i));
             }
             return new_sequence;
-       } 
+       }
+       LazySequence<T>* InsertSequenceAt(LazySequence<T>& other, size_t index) {
+            auto insert_generator = std::make_shared<InsertGenerator<T>>(generator_, other.generator_, index);
+            return new LazySequence<T>(insert_generator);
+        }
 };
