@@ -7,7 +7,8 @@ class Ordinal {
         enum class OrdinalType {
             Zero,
             Finite,
-            Transfinite
+            Omega,
+            OmegaPlusN
         };
         OrdinalType type_;
         size_t value_;
@@ -16,18 +17,31 @@ class Ordinal {
         Ordinal(size_t value) : type_(OrdinalType::Finite), value_(value) {}    
         static Ordinal omega() {
             Ordinal o;
-            o.type_ = OrdinalType::Transfinite;
+            o.type_ = OrdinalType::Omega;
             o.value_ = 0;
             return o;
+        }
+        static Ordinal omega_plus(size_t n) {
+            Ordinal o;
+            o.type_ = OrdinalType::OmegaPlusN;
+            o.value_ = n;
+            return o;
+        }
+        bool IsOmega() const {
+            return type_ == OrdinalType::Omega;
+        }
+        bool IsOmegaPlusN() const {
+            return type_ == OrdinalType::OmegaPlusN;
+        }
+        size_t GetOmegaPlusN() const {
+            if (!IsOmegaPlusN()) throw OrdinalError("not OmegaPlusN");
+            return value_;
         }
         bool IsZero() const { 
             return type_ == OrdinalType::Zero; 
         }
         bool IsFinite() const {
             return type_ == OrdinalType::Finite; 
-        }
-        bool IsTransfinite() const {
-            return type_ == OrdinalType::Transfinite; 
         }
         size_t GetValue() const {
             if (!IsFinite()) {
@@ -50,6 +64,16 @@ class Ordinal {
                 if (other.type_ == OrdinalType::Finite) return value_ < other.value_;
                 return true;
             }
+            if (IsOmega()) {
+                if (other.IsOmega()) return false;
+                if (other.IsOmegaPlusN()) return true;
+                return false;
+            }
+            if (IsOmegaPlusN()) {
+                if (other.IsOmega()) return false;
+                if (other.IsOmegaPlusN()) return value_ < other.value_;
+                return false;
+            }
             return false;
         }
         bool operator>(const Ordinal& other) const {
@@ -62,10 +86,13 @@ class Ordinal {
             return !(*this < other);
         }
         Ordinal operator+(const Ordinal& other) const {
-            if (IsTransfinite() && other.IsFinite()) {
-                return *this;
+            if (IsOmega() && other.IsFinite()) {
+                return omega_plus(other.GetValue());
             }
-            if (IsFinite() && other.IsTransfinite()) {
+            if (IsOmegaPlusN() && other.IsFinite()) {
+                return omega_plus(value_ + other.GetValue());
+            }
+            if (IsFinite() && (other.IsOmega() || other.IsOmegaPlusN())) {
                 return other;
             }
             if (IsZero()) return other;
@@ -77,20 +104,19 @@ class Ordinal {
             return *this;
         }
         Ordinal operator+(size_t value) const {
-            if (IsTransfinite()) {
-                return *this;
-            }
+            if (IsOmega()) return omega_plus(value);
+            if (IsOmegaPlusN()) return omega_plus(value_ + value);
             return Ordinal(GetValue() + value);
         }
         Ordinal operator*(const Ordinal& other) const {
             if (IsZero() || other.IsZero()) {
                 return Ordinal(0);
             }
-            if (IsTransfinite() && other.IsFinite()) {
+            if ((IsOmega() || IsOmegaPlusN()) && other.IsFinite()) {
                 if (other.value_ == 0) return Ordinal(0);
                 return *this;
             }
-            if (IsFinite() && other.IsTransfinite()) {
+            if (IsFinite() && (other.IsOmega() || other.IsOmegaPlusN())) {
                 if (value_ == 0) return Ordinal(0);
                 return other;
             }
