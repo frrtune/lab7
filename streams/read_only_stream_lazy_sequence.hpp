@@ -14,7 +14,9 @@ class ReadOnlyStreamLazySequence : public ReadOnlyStream<T> {
             try {
                 sequence_->Get(current_);
                 return false;
-            } catch (const RangeError&) return true;
+            } catch (const RangeError&) {
+                return true;
+            }
         }
         T read() override {
             T value = sequence_->Get(current_);
