@@ -1,37 +1,13 @@
 #pragma once
 
-#include "../streams/stream.hpp"
-#include <fstream>
-#include <string>
+#include "../optional/optional.hpp"
 
 template<typename T>
-class ReadOnlyStream : public Stream<T> {
-    private:
-        std::ifstream file_;
+class ReadOnlyStream {
     public:
-        ReadOnlyStream(std::string filename) {
-            file_.open(filename);
-            if (!file_.is_open()) throw StreamOpenError(filename);
-        }
-        ~ReadOnlyStream() override {
-            if (file_.is_open()) file_.close();
-        }
-        bool is_end() override {
-            return (file_.eof() || file_.fail());
-        }
-        Optional<T> try_read() override {
-            if (is_end()) return Optional<T>();
-            return Optional<T>(read());
-        }
-        T read() override {
-            T value;
-            file_ >> value;
-            if (file_.fail()) {
-                throw EndOfStreamError();
-            }
-            return value;
-        }
-        void close() override {
-            file_.close();
-        }
+        virtual ~ReadOnlyStream() = default;
+        virtual bool is_end() = 0;
+        virtual Optional<T> try_read() = 0;
+        virtual T read() = 0;
+        virtual void close() = 0;
 };
