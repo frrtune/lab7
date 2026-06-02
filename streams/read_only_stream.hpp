@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../optional/optional.hpp"
+#include "../streams/stream.hpp"
 #include <fstream>
 #include <string>
 
 template<typename T>
-class ReadOnlyStream {
+class ReadOnlyStream : public Stream<T> {
     private:
         std::ifstream file_;
     public:
@@ -13,17 +13,17 @@ class ReadOnlyStream {
             file_.open(filename);
             if (!file_.is_open()) throw StreamOpenError(filename);
         }
-        ~ReadOnlyStream() {
+        ~ReadOnlyStream() override {
             if (file_.is_open()) file_.close();
         }
-        bool is_end() {
+        bool is_end() override {
             return (file_.eof() || file_.fail());
         }
-        Optional<T> try_read() {
+        Optional<T> try_read() override {
             if (is_end()) return Optional<T>();
             return Optional<T>(read());
         }
-        T read() {
+        T read() override {
             T value;
             file_ >> value;
             if (file_.fail()) {
@@ -31,7 +31,7 @@ class ReadOnlyStream {
             }
             return value;
         }
-        void close() {
+        void close() override {
             file_.close();
         }
 };
