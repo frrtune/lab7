@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../streams/read_only_stream.hpp"
+#include "../streams/read_only_stream_file.hpp"
+#include "../streams/read_only_stream_lazy_sequence.hpp"
 #include "../optional/optional.hpp"
 #include "../lab5/array_sequence/array_sequence.hpp"
 
@@ -57,13 +58,6 @@ class Statistics {
                     add(optional_value.value());
                     count++;
                 }
-            }
-        }
-        void read_from_sequence(LazySequence<T>& sequence, size_t limit = 100) {
-            size_t count = 0;
-            while (count < limit) {
-                add(sequence.Get(count));
-                count++;
             }
         }
         void reset() {
