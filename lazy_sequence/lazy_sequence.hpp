@@ -30,7 +30,7 @@ class LazySequence {
                 cache_->PushBack(sequence.Get(i));
             }
         }
-        LazySequence (const LazySequence<T>& other) : generator_(other.generator_), cache_(new Container<T>(*other.cache_)) {};
+        LazySequence (const LazySequence<T>& other) : generator_(other.generator_), cache_(other.cache_) {};
         LazySequence(Generator<T>* generator) : generator_(generator), cache_(new Container<T>()) {};
         LazySequence(std::shared_ptr<Generator<T>> generator) : generator_(generator), cache_(new Container<T>()) {}
        T GetFirst() {
