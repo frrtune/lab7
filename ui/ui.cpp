@@ -1,5 +1,5 @@
 #include "../statistics/statistics.hpp"
-#include "../streams/read_only_stream.hpp"
+#include "../streams/read_only_stream_file.hpp"
 #include <pdcurses.h>
 #include <string>
 
@@ -36,7 +36,7 @@ void open_ui() {
         }
         
         try {
-            ReadOnlyStream<int> stream(filename);
+            ReadOnlyStreamFile<int> stream(filename);
             stats.read_from_stream(stream);
             data_loaded = true;
 
