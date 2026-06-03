@@ -12,14 +12,15 @@ class AppendGenerator : public Generator<T> {
         AppendGenerator(std::shared_ptr<Generator<T>> generator, T item) : 
         generator_(generator), item_(item), done_(false) {}
         T GetNext() override {
-            if (generator_->HasNext()) {
+            try {
                 return generator_->GetNext();
+            } catch (const EmptyBufferError&) {
+                if (!done_) {
+                    done_ = true;
+                    return item_;
+                }
+                throw;
             }
-            if (!done_) {
-                done_ = true;
-                return item;
-            }
-            throw EmptyBufferError();
         }
         bool HasNext() const override {
             return !done_;
