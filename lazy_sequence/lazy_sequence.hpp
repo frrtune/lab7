@@ -5,6 +5,7 @@
 #include "../generator/concat_generator.hpp"
 #include "../generator/append_generator.hpp"
 #include "../generator/prepend_generator.hpp"
+#include "../generator/insert_at_generator.hpp"
 #include "../lab5/exceptions/exceptions.hpp"
 #include "../lab5/sequence/sequence.hpp"
 #include "../lab5/array_sequence/array_sequence.hpp"
@@ -85,16 +86,8 @@ class LazySequence {
             return new LazySequence<T>(prepend_generator);
        }
        LazySequence<T>* InsertAt(T item, size_t index) {
-            if (index > cache_->GetLength()) throw RangeError(index, cache_->GetLength());   
-            LazySequence<T>* new_sequence = new LazySequence<T>();
-            for (size_t i = 0; i < index; i++) {
-                new_sequence->cache_->Append(cache_->Get(i));
-            }
-            new_sequence->cache_->Append(item);
-            for (size_t i = index; i < cache_->GetLength(); i++) {
-                new_sequence->cache_->Append(cache_->Get(i));
-            }
-            return new_sequence;
+            auto insert_at_generator = std::make_shared<InsertAtGenerator<T>>(generator_, item, index);
+            return new LazySequence<T>(insert_at_generator);
        }
        LazySequence <T>* Concat(LazySequence<T>& other) {
             auto concat_generator = std::make_shared<ConcatGenerator<T>>(generator_, other.generator_);
