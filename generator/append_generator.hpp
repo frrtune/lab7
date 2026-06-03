@@ -14,7 +14,7 @@ class AppendGenerator : public Generator<T> {
         T GetNext() override {
             try {
                 return generator_->GetNext();
-            } catch (const EmptyBufferError&) {
+            } catch (const InvalidArgumentError&) {
                 if (!done_) {
                     done_ = true;
                     return item_;
