@@ -7,7 +7,7 @@ class NaturalNumbersGenerator : public Generator<long long> {
         long long current_;
         long long limit_;
     public:
-        NaturalNumbersGenerator(long long limit) : current_(0), limit_(limit) {}
+        NaturalNumbersGenerator(long long limit) : current_(1), limit_(limit) {}
         long long GetNext() override {
             if (current_ >= limit_) throw InvalidArgumentError("limit has been reached");
             return current_++;

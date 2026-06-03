@@ -12,7 +12,7 @@ class InsertAtGenerator : public Generator<T> {
         size_t current_;
     public:
         InsertAtGenerator(std::shared_ptr<Generator<T>> generator, T item, size_t index) : 
-        generator_(generator), item_(item), done_(false), index_(index), current_(0) {}
+        generator_(generator), item_(item), done_(false), index_(index), current_(1) {}
         T GetNext() override {
             if (current_ < index_ && generator_->HasNext()) {
                 current_++;
@@ -23,7 +23,7 @@ class InsertAtGenerator : public Generator<T> {
                 return item_;
             }
             if (generator_->HasNext()) return generator_->GetNext();
-            throw EmptyBufferError();
+            throw EmptyBufferError("no more elements");
         }
         bool HasNext() const override {
             if (current_ < index_ && generator_->HasNext()) return true;
@@ -36,4 +36,4 @@ class InsertAtGenerator : public Generator<T> {
             }
             return Optional<T>(GetNext());
         }
-};
+};  

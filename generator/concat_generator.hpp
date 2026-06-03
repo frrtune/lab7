@@ -11,7 +11,7 @@ class ConcatGenerator : public Generator<T> {
     public:
         ConcatGenerator(std::shared_ptr<Generator<T>> first, std::shared_ptr<Generator<T>> second) :
         first_(first), second_(second), first_done_(false) {}
-         T GetNext() override {
+        T GetNext() override {
             if (!first_done_ && first_->HasNext()) {
                 return first_->GetNext();
             }
