@@ -14,12 +14,12 @@ class PrependGenerator : public Generator<T> {
         T GetNext() override {
             if (!done_) {
                 done_ = true;
-                return item;
+                return item_;
             }
             if (generator_->HasNext()) {
                 return generator_->GetNext();
             }
-            throw EmptyBufferError();
+            throw EmptyBufferError("no more elements");
         }
         bool HasNext() const override {
             return !done_ || generator_->HasNext();
