@@ -3,6 +3,7 @@
 #include <memory>
 #include "../generator/insert_generator.hpp"
 #include "../generator/concat_generator.hpp"
+#include "../generator/append_generator.hpp"
 #include "../lab5/exceptions/exceptions.hpp"
 #include "../lab5/sequence/sequence.hpp"
 #include "../lab5/array_sequence/array_sequence.hpp"
@@ -75,9 +76,8 @@ class LazySequence {
             return cache_->GetLength();
        }
        LazySequence<T>* Append(T item) {
-            LazySequence<T>* new_sequence = new LazySequence<T>(*this);
-            new_sequence->cache_->Append(item);
-            return new_sequence;
+            auto append_generator = std::make_shared<AppendGenerator<T>>(generator_, item);
+            return new LazySequence<T>(append_generator);
        }
        LazySequence<T>* Prepend(T item) {
             LazySequence<T>* new_sequence = new LazySequence<T>();
